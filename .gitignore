@@ -1,0 +1,72 @@
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Ignore node_modules folder
+############################
+node_modules
+
+# Ignore all text files
+######################
+*.txt
+
+# Ignore files related to API keys
+#################################
+.env
+
+# Ignore SASS config files
+#########################
+.sass-cache
+
+# Ignore D4 folder
+##################
+D4
+
+# Ignore FTP #
+##############
+.ftpconfig
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# Images #
+##########
+*.nef
+*.raw
+
+# Gallery Folder #
+##################
+gallery
+old
+
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
