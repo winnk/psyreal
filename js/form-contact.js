@@ -1,37 +1,53 @@
 // JavaScript Document
 
 // contact form
-$(document).ready(function() {
-	$('form#contact-form').submit(function() {
-	$('form#contact-form .error').remove();
-	var hasError = false;
-	$('.requiredField').each(function() {
-	if(jQuery.trim($(this).val()) == '') {
-    var labelText = $(this).prev('label').text();
-    $(this).parent().append('<span class="error">You forgot to enter your '+labelText+'</span>');
-    $(this).addClass('inputError');
-    hasError = true;
-    } else if($(this).hasClass('email')) {
-    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-    if(!emailReg.test(jQuery.trim($(this).val()))) {
-    var labelText = $(this).prev('label').text();
-    $(this).parent().append('<span class="error">You entered an invalid '+labelText+'</span>');
-    $(this).addClass('inputError');
-    hasError = true;
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contact-form');
+    
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Remove previous errors
+            const errors = form.querySelectorAll('.error');
+            errors.forEach(error => error.remove());
+            
+            let hasError = false;
+            const requiredFields = form.querySelectorAll('.requiredField');
+            
+            requiredFields.forEach(function(field) {
+                const value = field.value.trim();
+                
+                if (value === '') {
+                    const labelText = field.previousElementSibling ? field.previousElementSibling.textContent : field.name;
+                    const errorSpan = document.createElement('span');
+                    errorSpan.className = 'error';
+                    errorSpan.textContent = 'You forgot to enter your ' + labelText;
+                    field.parentNode.appendChild(errorSpan);
+                    field.classList.add('inputError');
+                    hasError = true;
+                } else if (field.classList.contains('email')) {
+                    const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailReg.test(value)) {
+                        const labelText = field.previousElementSibling ? field.previousElementSibling.textContent : 'email';
+                        const errorSpan = document.createElement('span');
+                        errorSpan.className = 'error';
+                        errorSpan.textContent = 'You entered an invalid ' + labelText;
+                        field.parentNode.appendChild(errorSpan);
+                        field.classList.add('inputError');
+                        hasError = true;
+                    }
+                }
+            });
+            
+            if (!hasError) {
+                // Simulate form submission success
+                const successDiv = document.createElement('div');
+                successDiv.className = 'success';
+                successDiv.innerHTML = '<p style="color: #fff; font-size: 1.2em; margin-top: 20px;">Thank you! Your message has been received.</p>';
+                form.style.display = 'none';
+                form.parentNode.insertBefore(successDiv, form);
+            }
+        });
     }
-    }
-    });
-    if(!hasError) {
-    $('form#contact-form input.submit').fadeOut('normal', function() {
-    $(this).parent().append('');
-    });
-    var formInput = $(this).serialize();
-    $.post($(this).attr('action'),formInput, function(data){
-    $('form#contact-form').slideUp("fast", function() {
-    $(this).before('<div class="success">Thank you. Your email was sent successfully.</div>');
-    });
-    });
-    }
-    return false;
-    });
 });
